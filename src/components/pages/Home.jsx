@@ -1,19 +1,22 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Home = ({trendingFilms}) => {
     return (
-        <div>
+        <>
             <h2>Trending today</h2>
             <ul>
                 {trendingFilms && trendingFilms.map(({ title, id }) => {
                     return (
                         <li key={id}>
-                            {title}
+                            <Link to={`movies/${id}`}>
+                                {title}
+                            </Link>
                         </li>
                     );
                 })}
-            </ul>
-        </div>
+            </ul>  
+        </>
     )
 }
 

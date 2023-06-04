@@ -6,14 +6,20 @@ import MovieDetails from "../pages/MovieDetails";
 import Cast from "../pages/Cast";
 import Reviews from "../pages/Reviews";
 import themoviedbApi from '../../services/themoviedb-api';
+import Layout from "components/Layout/Layout";
 
 const App = () => {
   const [trendingFilms, setTrendingFilms] = useState([]);
+  const [searchMovies, setSearchMovies] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
+
+  const handleFormSubmit = searchValue => {
+    setSearchValue(searchValue);
+  };
 
   useEffect(() => {
     const fetchTrendingFilms = async () => {
       const response = await themoviedbApi.fetchTrending();
-      console.log(response);
       setTrendingFilms(response.data.results);
     };
 
@@ -23,16 +29,32 @@ const App = () => {
       console.log(error.message);
     }
   }, [])
+
+  useEffect(() => {
+    if (searchValue === '') {
+      return;
+    }
+    const fetchSearchMovies = async () => {
+      const response = await themoviedbApi.fetchSearchMovies(searchValue, 1);
+      setSearchMovies(response.data.results);
+    };
+
+    try {
+      fetchSearchMovies();
+    } catch (error) {
+      console.log(error.message);
+    }
+  }, [searchValue])
   
 
   return (
     <Routes>
-      <Route path='/' element={<Home trendingFilms={trendingFilms} />} />
-      <Route path='/movies' element={<Movies />} >
-        <Route path=":movieId" element={<MovieDetails />} >
-          <Route path="cast" element={<Cast />} />
-          <Route path="reviews" element={<Reviews />} />
-        </Route>
+      <Route path="/" element={<Layout/>}>
+        <Route index element={<Home trendingFilms={trendingFilms} />} />
+        <Route path='movies' element={<Movies searchMovies={searchMovies} handleFormSubmit={handleFormSubmit}/>} />
+        <Route path="movies/:movieId" element={<MovieDetails />} />
+        <Route path="movies/:movieId/cast" element={<Cast />} />
+        <Route path="movies/:movieId/reviews" element={<Reviews />} />
       </Route>
     </Routes>
   );
