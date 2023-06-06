@@ -21,7 +21,8 @@ const SearchBar = ({onSubmit}) => {
         }
 
         onSubmit(searchValue);
-        resetForm();
+        // resetForm();
+        setSearchValue('');
     };
 
         return (

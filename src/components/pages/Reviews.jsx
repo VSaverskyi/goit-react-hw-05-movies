@@ -1,8 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import themoviedbApi from '../../services/themoviedb-api'
+import { useParams } from 'react-router-dom';
 
 const Reviews = () => {
+  const { movieId } = useParams();
+  const [reviews, setReviews] = useState(null);
+
+  useEffect(() => { 
+    const fetchCast= async () => {
+      const response = await themoviedbApi.fetchFilmReviews(movieId);
+      setReviews(response.data.results);
+    };
+
+    try {
+      fetchCast();
+    } catch (error) {
+      console.log(error.message);
+    }
+  }, [])
+  
+  if (!reviews) {
+    return <p>We don`t have any reviews for this movie.</p>;
+  }
+
   return (
-    <div>Reviews</div>
+    <>
+      <ul>
+        {reviews.map(review => {
+         return <li key={review.id}>
+            <h3>{`Author: ${review.author}`}</h3>
+            <p>{review.content}</p>
+          </li>
+        })}
+      </ul>
+    </>
   )
 }
 

@@ -11,7 +11,26 @@ const fetchTrending = async () => {
 
 const fetchSearchMovies = async (searchValue, page) => {
   const response = await axios.get(
-    `/search/movie?query=${searchValue}&include_adult=false&language=en-US&page=${page}&api_key=d5b6a5ca94641e9f7b547d0396725c93`
+    `/search/movie?query=${searchValue}&include_adult=false&language=en-US&page=${page}&api_key=${API_KEY}`
+  );
+  return response;
+};
+
+const fetchFilmDetails = async movieId => {
+  const response = await axios.get(`/movie/${movieId}?api_key=${API_KEY}`);
+  return response;
+};
+
+const fetchFilmCredits = async movieId => {
+  const response = await axios.get(
+    `/movie/${movieId}/credits?api_key=${API_KEY}`
+  );
+  return response;
+};
+
+const fetchFilmReviews = async movieId => {
+  const response = await axios.get(
+    `/movie/${movieId}/reviews?api_key=${API_KEY}`
   );
   return response;
 };
@@ -19,6 +38,9 @@ const fetchSearchMovies = async (searchValue, page) => {
 const api = {
   fetchTrending,
   fetchSearchMovies,
+  fetchFilmDetails,
+  fetchFilmCredits,
+  fetchFilmReviews,
 };
 
 export default api;
