@@ -7,7 +7,8 @@ const MovieDetails = () => {
   const {movieId} = useParams();
 
   useEffect(() => { 
-    const fetchFilmInfo= async () => {
+    if (movieId) {
+      const fetchFilmInfo= async () => {
       const response = await themoviedbApi.fetchFilmDetails(movieId);
       setFilmDetails(response.data);
     };
@@ -17,7 +18,8 @@ const MovieDetails = () => {
     } catch (error) {
       console.log(error.message);
     }
-  }, [])
+    }
+  }, [movieId])
   
   if (filmDetails) {
     const { poster_path, title, vote_average, overview, genres } = filmDetails;

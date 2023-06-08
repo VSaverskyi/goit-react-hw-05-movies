@@ -6,7 +6,7 @@ import themoviedbApi from '../../services/themoviedb-api';
 const Movies = () => {
   const [searchMovies, setSearchMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const searchFilmValue = searchParams.get('query');
+  const searchFilmValue = searchParams.get('query') ?? '';
 
   const handleFormSubmit = searchValue => {
     setSearchParams({query: searchValue});
@@ -29,7 +29,7 @@ const Movies = () => {
 
   return (
     <>
-      <SearchBar onSubmit={handleFormSubmit} query={searchFilmValue || ''} />  
+      <SearchBar onSubmit={handleFormSubmit} query={searchFilmValue} />  
       <ul>
           {searchMovies.map(({ title, id }) => {
               return (
