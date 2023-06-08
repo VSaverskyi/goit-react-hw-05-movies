@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { StyledLink } from "./Header.styled";
 
 const Header = () => {
     return (
@@ -6,8 +6,8 @@ const Header = () => {
             <div className="container-fluid">
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <div className="navbar-nav">
-                        <NavLink className="nav-link" aria-current="page" to="/">Home</NavLink>
-                        <NavLink className="nav-link" to="/movies">Movies</NavLink>
+                        <StyledLink className="nav-link" aria-current="page" to="/">Home</StyledLink>
+                        <StyledLink className="nav-link" to="/movies">Movies</StyledLink>
                     </div>
                 </div>
             </div>

@@ -1,22 +1,21 @@
 import SearchBar from 'components/Searchbar/Searchbar';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import themoviedbApi from '../../services/themoviedb-api';
 
 const Movies = () => {
   const [searchMovies, setSearchMovies] = useState([]);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchFilmValue = searchParams.get('query');
 
   const handleFormSubmit = searchValue => {
-    setSearchValue(searchValue);
+    setSearchParams({query: searchValue});
   };
 
   useEffect(() => {
-    if (searchValue === '') {
-      return;
-    }
-    const fetchSearchMovies = async () => {
-      const response = await themoviedbApi.fetchSearchMovies(searchValue, 1);
+    if (searchFilmValue) {
+      const fetchSearchMovies = async () => {
+      const response = await themoviedbApi.fetchSearchMovies(searchFilmValue, 1);
       setSearchMovies(response.data.results);
     };
 
@@ -24,14 +23,15 @@ const Movies = () => {
       fetchSearchMovies();
     } catch (error) {
       console.log(error.message);
+    } 
     }
-  }, [searchValue])
+  }, [searchFilmValue])
 
   return (
     <>
-      <SearchBar onSubmit={handleFormSubmit}/>  
+      <SearchBar onSubmit={handleFormSubmit} query={searchFilmValue || ''} />  
       <ul>
-          {searchMovies && searchMovies.map(({ title, id }) => {
+          {searchMovies.map(({ title, id }) => {
               return (
                   <li key={id}>
                       <Link to={`${id}`}>

@@ -6,8 +6,9 @@ const Cast = () => {
   const [castList, setCastList] = useState(null);
   const { movieId } = useParams();
   
-    useEffect(() => { 
-    const fetchCast= async () => {
+  useEffect(() => { 
+    if (movieId) {
+      const fetchCast= async () => {
       const response = await themoviedbApi.fetchFilmCredits(movieId);
       setCastList(response.data.cast);
     };
@@ -17,7 +18,8 @@ const Cast = () => {
     } catch (error) {
       console.log(error.message);
     }
-  }, [])
+    }  
+  }, [movieId])
 
   if (castList) {
     return (

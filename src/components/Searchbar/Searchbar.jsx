@@ -6,14 +6,14 @@ import {  SearchForm, SearchFormBtn, SearchFormBtnLabel, SearchFormInput } from 
 
 const schema = yup.string().required();
 
-const SearchBar = ({onSubmit}) => {
-    const [searchValue, setSearchValue] = useState('');
+const SearchBar = ({onSubmit, query}) => {
+    const [searchValue, setSearchValue] = useState(query);
 
     const handleSearchChange = event => {
-        setSearchValue(event.target.value.toLowerCase());
+        setSearchValue(event.target.value);
     };
 
-    const handleSubmit = (values, {resetForm}) => {
+    const handleSubmit = () => {
 
         if (searchValue.trim() === '') {
             alert('Please, enter movie name!');
@@ -21,14 +21,13 @@ const SearchBar = ({onSubmit}) => {
         }
 
         onSubmit(searchValue);
-        // resetForm();
         setSearchValue('');
     };
 
         return (
         <div>
             <Formik
-                initialValues={{ searchValue: ''}}
+                initialValues={{ searchValue: query}}
                 onSubmit={handleSubmit}
                 validationSchema={schema}
             >
@@ -61,5 +60,6 @@ const SearchBar = ({onSubmit}) => {
 export default SearchBar;
 
 SearchBar.propTypes = {
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
+    query: PropTypes.string
 }
