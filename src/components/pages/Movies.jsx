@@ -1,12 +1,13 @@
 import SearchBar from 'components/Searchbar/Searchbar';
 import React, { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import themoviedbApi from '../../services/themoviedb-api';
 
 const Movies = () => {
   const [searchMovies, setSearchMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const searchFilmValue = searchParams.get('query') ?? '';
+  const location = useLocation();
 
   const handleFormSubmit = searchValue => {
     setSearchParams({query: searchValue});
@@ -34,7 +35,7 @@ const Movies = () => {
           {searchMovies.map(({ title, id }) => {
               return (
                   <li key={id}>
-                      <Link to={`${id}`}>
+                      <Link to={`${id}`} state={{from: location}}>
                           {title}
                       </Link>
                   </li>

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link, Outlet, useParams } from 'react-router-dom';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import themoviedbApi from '../../services/themoviedb-api';
 
 const MovieDetails = () => {
   const [filmDetails, setFilmDetails] = useState(null);
-  const {movieId} = useParams();
+  const { movieId } = useParams();
+  const location = useLocation();
 
   useEffect(() => { 
     if (movieId) {
@@ -26,7 +27,7 @@ const MovieDetails = () => {
 
     return (
       <>
-        <Link>Go back</Link>
+        <Link to={location.state.from ?? '/'}>Go back</Link>
         <img src={`https://image.tmdb.org/t/p/w300/${poster_path}`} alt={title} />
         <h2>{title}</h2>
         <p>{`User score: ${Math.floor(vote_average * 10)}%`}</p>

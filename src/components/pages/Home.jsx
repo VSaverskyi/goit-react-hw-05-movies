@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import themoviedbApi from '../../services/themoviedb-api';
 
 const Home = () => {
     const [trendingFilms, setTrendingFilms] = useState([]);
+    const location = useLocation();
 
     useEffect(() => {
       const fetchTrendingFilms = async () => {
@@ -26,7 +27,7 @@ const Home = () => {
                 {trendingFilms && trendingFilms.map(({ title, id }) => {
                     return (
                         <li key={id}>
-                            <Link to={`movies/${id}`}>
+                            <Link to={`movies/${id}`} state={{from: location}}>
                                 {title}
                             </Link>
                         </li>

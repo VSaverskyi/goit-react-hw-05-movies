@@ -21,7 +21,6 @@ const SearchBar = ({onSubmit, query}) => {
         }
 
         onSubmit(searchValue);
-        setSearchValue('');
     };
 
         return (
