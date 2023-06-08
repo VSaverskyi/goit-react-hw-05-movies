@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import themoviedbApi from '../../services/themoviedb-api';
 
 const MovieDetails = () => {
+  const location = useLocation();
+  const backLinkLocationRef = useRef(location.state?.from ?? "/");
   const [filmDetails, setFilmDetails] = useState(null);
   const { movieId } = useParams();
-  const location = useLocation();
 
   useEffect(() => { 
     if (movieId) {
@@ -27,7 +28,7 @@ const MovieDetails = () => {
 
     return (
       <>
-        <Link to={location.state.from ?? '/'}>Go back</Link>
+        <Link to={backLinkLocationRef.current}>Go back</Link>
         <img src={`https://image.tmdb.org/t/p/w300/${poster_path}`} alt={title} />
         <h2>{title}</h2>
         <p>{`User score: ${Math.floor(vote_average * 10)}%`}</p>
@@ -40,7 +41,9 @@ const MovieDetails = () => {
           <li><Link to={`cast`}>Cast</Link></li>
           <li><Link to={`reviews`}>Reviews</Link></li>
         </ul>
-        <Outlet/>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Outlet/>
+        </Suspense>
       </>
   )
   }
