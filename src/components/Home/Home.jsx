@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import themoviedbApi from '../../services/themoviedb-api';
+import { H2, SectionWrap, StyledList, StyledListItem } from './Home.styled';
 
 const Home = () => {
     const [trendingFilms, setTrendingFilms] = useState([]);
@@ -21,20 +22,20 @@ const Home = () => {
     
 
     return (
-        <>
-            <h2>Trending today</h2>
-            <ul>
+        <SectionWrap>
+            <H2>Trending today</H2>
+            <StyledList>
                 {trendingFilms && trendingFilms.map(({ title, id }) => {
                     return (
-                        <li key={id}>
+                        <StyledListItem key={id}>
                             <Link to={`movies/${id}`} state={{from: location}}>
                                 {title}
                             </Link>
-                        </li>
+                        </StyledListItem>
                     );
                 })}
-            </ul>  
-        </>
+            </StyledList>  
+        </SectionWrap>
     )
 }
 

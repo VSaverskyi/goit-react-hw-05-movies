@@ -2,6 +2,7 @@ import SearchBar from 'components/Searchbar/Searchbar';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import themoviedbApi from '../../services/themoviedb-api';
+import { StyledList, StyledListItem } from 'components/Home/Home.styled';
 
 const Movies = () => {
   const [searchMovies, setSearchMovies] = useState([]);
@@ -31,17 +32,17 @@ const Movies = () => {
   return (
     <>
       <SearchBar onSubmit={handleFormSubmit} query={searchFilmValue} />  
-      <ul>
+      <StyledList>
           {searchMovies.map(({ title, id }) => {
               return (
-                  <li key={id}>
+                  <StyledListItem key={id}>
                       <Link to={`${id}`} state={{from: location}}>
                           {title}
                       </Link>
-                  </li>
+                  </StyledListItem>
               );
           })}
-      </ul>
+      </StyledList>
     </>
   )
 }
