@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import themoviedbApi from '../../services/themoviedb-api'
 import { useParams } from 'react-router-dom';
+import { StyledReviewsList, StyledReviewsListItem } from './Reviews.styled';
 
 const Reviews = () => {
   const { movieId } = useParams();
@@ -27,14 +28,14 @@ const Reviews = () => {
 
   return (
     <>
-      <ul>
+      <StyledReviewsList>
         {reviews.map(review => {
-         return <li key={review.id}>
+         return <StyledReviewsListItem key={review.id}>
             <h3>{`Author: ${review.author}`}</h3>
             <p>{review.content}</p>
-          </li>
+          </StyledReviewsListItem>
         })}
-      </ul>
+      </StyledReviewsList>
     </>
   )
 }
